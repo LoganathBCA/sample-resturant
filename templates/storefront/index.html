@@ -1,0 +1,580 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Spice &amp; Sizzle Dindigul | Authentic South Indian Restaurant</title>
+    <meta name="description"
+        content="Spice &amp; Sizzle Dindigul — authentic Dindigul Biryani, South Indian meals, tandoor breads, starters, and traditional desserts &amp; beverages. Order online now!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* ── BACK TO PORTFOLIO BUTTON ── */
+        .back-to-portfolio {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(138, 62, 44, 0.88);
+            backdrop-filter: blur(14px);
+            color: #FFD980;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 217, 128, 0.3);
+            box-shadow: 0 6px 24px rgba(138, 62, 44, 0.35);
+            transition: all 0.3s cubic-bezier(.22, .68, 0, 1.2);
+        }
+
+        .back-to-portfolio:hover {
+            background: rgba(142, 26, 34, 0.92);
+            border-color: #FFD980;
+            transform: translateX(-4px);
+            box-shadow: 0 10px 32px rgba(142, 26, 34, 0.45);
+            color: #fff;
+        }
+
+        .back-to-portfolio .back-arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-portfolio:hover .back-arrow {
+            transform: translateX(-4px);
+        }
+
+        @media (max-width: 600px) {
+            .back-to-portfolio {
+                bottom: 20px;
+                left: 20px;
+                padding: 9px 16px;
+                font-size: 0.78rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BACK TO PORTFOLIO -->
+    <a href="../index.html?skip-intro" class="back-to-portfolio" title="Back to D Shiners Portfolio">
+        <span class="back-arrow">←</span> Back to Portfolio
+    </a>
+
+    <!-- ========== VIDEO INTRO OVERLAY — CINEMATIC ========== -->
+    <div id="video-intro">
+        <video id="intro-video" autoplay muted playsinline>
+            <source src="{% static 'video/animation video.mp4' %}" type="video/mp4">
+        </video>
+        <!-- Cinematic overlays -->
+        <div class="video-vignette"></div>
+        <div class="video-border-frame"></div>
+        <!-- Logo watermark shows mid-video -->
+        <div class="intro-logo" id="intro-logo">
+            <div class="logo-main">Spice &amp; Sizzle</div>
+            <div class="logo-sub">Dindigul</div>
+        </div>
+        <!-- Animated progress bar -->
+        <div class="intro-progress" id="intro-progress"></div>
+        <button id="skip-intro" aria-label="Skip intro">Skip <span>&rarr;</span></button>
+    </div>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav id="main-nav">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <span class="logo-spice">Spice</span><span class="logo-amp">&</span><span
+                    class="logo-sizzle">Sizzle</span>
+            </a>
+            <button id="nav-toggle" class="hamburger" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <ul id="nav-links" class="nav-links">
+                <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-page="about">About Us</a></li>
+                <li><a href="#menu" class="nav-link" data-page="menu">Menu</a></li>
+                <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- My Orders button (visible when logged in) -->
+                <button class="nav-my-orders" id="nav-my-orders" style="display:none;" title="My Orders">
+                    📋 My Orders
+                </button>
+                <!-- Auth button -->
+                <button class="nav-auth-btn" id="nav-auth-btn" title="Login / Sign Up">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <span class="nav-auth-label" id="nav-auth-label">Login</span>
+                </button>
+                <!-- Logout button (visible only when logged in) -->
+                <button class="nav-logout-btn" id="nav-logout-btn" title="Logout">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Logout
+                </button>
+                <!-- Cart FAB in nav -->
+                <button class="cart-fab" id="cart-fab" aria-label="Shopping Cart" title="View Cart">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HOME PAGE ========== -->
+    <section id="home" class="page page-home">
+        <div class="home-bg" style="background-image: url({% static 'images/hero page background.png' %});"></div>
+        <!-- Floating golden particles -->
+        <div class="home-particles">
+            <div class="home-particle"></div>
+            <div class="home-particle"></div>
+            <div class="home-particle"></div>
+            <div class="home-particle"></div>
+            <div class="home-particle"></div>
+            <div class="home-particle"></div>
+        </div>
+        <div class="home-content">
+            <div class="home-left">
+                <p class="home-tagline">— Authentic Dindigul Flavours —</p>
+                <h1 class="home-title">Spice &amp; Sizzle<br><span>Dindigul</span></h1>
+                <p class="home-desc">Experience the rich tapestry of South Indian cuisine. From our legendary Dindigul
+                    Biryani made with aromatic Seeraga Samba rice to our fiery Chicken 65 — every dish tells a story of
+                    tradition, spice, and soul.</p>
+                <a href="tel:+919843374813" class="btn-call" id="btn-call-home">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    9843374813
+                </a>
+            </div>
+            <div class="home-right">
+                <div class="home-img-wrapper">
+                    <img src="{% static 'images/hero page img.png' %}" alt="Spice & Sizzle signature dish"
+                        loading="eager">
+                </div>
+            </div>
+        </div>
+        <!-- Decorative color bars -->
+        <div class="color-bars">
+            <span style="background:#8A3E2C;"></span>
+            <span style="background:#BD6C34;"></span>
+            <span style="background:#FFD980;"></span>
+            <span style="background:#8E1A22;"></span>
+        </div>
+        <!-- Scroll-down indicator -->
+        <div class="scroll-indicator" id="scroll-indicator">
+            <span>Scroll</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT US PAGE ========== -->
+    <section id="about" class="page page-about">
+        <div class="about-bg" style="background-image: url({% static 'images/about-us-bg.png' %});"></div>
+        <div class="about-overlay"></div>
+        <div class="about-content">
+            <div class="section-header">
+                <p class="section-sub">Our Story</p>
+                <h2 class="section-title">About Us</h2>
+                <div class="title-line"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-card" id="about-card-heritage">
+                    <div class="about-icon">🏛️</div>
+                    <h3>Heritage</h3>
+                    <p>Rooted in the culinary capital of Dindigul, Spice &amp; Sizzle brings you recipes passed down
+                        through generations. Our chefs honour the traditional techniques that make Dindigul Biryani
+                        world-famous — cooked with Seeraga Samba rice, ground spices, and slow-simmered perfection.</p>
+                </div>
+                <div class="about-card" id="about-card-philosophy">
+                    <div class="about-icon">🔥</div>
+                    <h3>Our Philosophy</h3>
+                    <p>We believe food should ignite the senses. Every ingredient is hand-selected, every spice blend
+                        freshly ground. From our tandoor ovens to our copper handi, authenticity isn't just a promise —
+                        it's our soul. We serve food that warms the heart and feeds the spirit.</p>
+                </div>
+                <div class="about-card" id="about-card-experience">
+                    <div class="about-icon">✨</div>
+                    <h3>The Experience</h3>
+                    <p>Step into Spice &amp; Sizzle and be welcomed by warm aromas, vibrant décor, and the sizzle of
+                        fresh dishes being served. Whether it's a family dinner, a celebration, or a quick bite — we
+                        make every meal memorable with hospitality that feels like home.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MENU PAGE ========== -->
+    <section id="menu" class="page page-menu">
+        <div class="menu-content">
+            <div class="section-header">
+                <p class="section-sub">Discover</p>
+                <h2 class="section-title">Our Menu</h2>
+                <div class="title-line"></div>
+            </div>
+
+            <!-- Menu Categories -->
+            <div class="menu-categories" id="menu-categories">
+                <button class="cat-btn active" data-cat="starters">Starters & Snacks</button>
+                <button class="cat-btn" data-cat="maincourse">Main Course</button>
+                <button class="cat-btn" data-cat="breads">Breads (Tandoor)</button>
+                <button class="cat-btn" data-cat="desserts">Desserts & Beverages</button>
+            </div>
+
+            <!-- Dynamic menu grids — populated by JS from API -->
+            <div class="menu-grid active" id="cat-starters">
+                <div class="menu-loading">Loading menu...</div>
+            </div>
+            <div class="menu-grid" id="cat-maincourse"></div>
+            <div class="menu-grid" id="cat-breads"></div>
+            <div class="menu-grid" id="cat-desserts"></div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT PAGE ========== -->
+    <section id="contact" class="page page-contact">
+        <div class="contact-bg" style="background-image: url({% static 'images/contact-bg.png' %});"></div>
+        <div class="contact-overlay"></div>
+        <div class="contact-content">
+            <div class="section-header">
+                <p class="section-sub">Get In Touch</p>
+                <h2 class="section-title">Contact Us</h2>
+                <div class="title-line"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info-cards">
+                    <div class="contact-card" id="contact-card-phone">
+                        <div class="contact-card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                            </svg>
+                        </div>
+                        <h4>Phone</h4>
+                        <a href="tel:+919843374813">9843374813</a>
+                    </div>
+                    <div class="contact-card" id="contact-card-email">
+                        <div class="contact-card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                        </div>
+                        <h4>Email</h4>
+                        <a href="mailto:dshiners33@gmail.com">dshiners33@gmail.com</a>
+                    </div>
+                    <div class="contact-card" id="contact-card-location">
+                        <div class="contact-card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                        </div>
+                        <h4>Location</h4>
+                        <p>Dindigul, Tamil Nadu, India</p>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="form-name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="form-email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="form-message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="btn-submit-contact">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer id="main-footer">
+        <p>&copy; 2026 Spice &amp; Sizzle Dindigul. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scroll Dots Navigation -->
+    <nav class="scroll-dots" id="scroll-dots">
+        <button class="scroll-dot active" data-target="home" data-label="Home" aria-label="Go to Home"></button>
+        <button class="scroll-dot" data-target="about" data-label="About" aria-label="Go to About"></button>
+        <button class="scroll-dot" data-target="menu" data-label="Menu" aria-label="Go to Menu"></button>
+        <button class="scroll-dot" data-target="contact" data-label="Contact" aria-label="Go to Contact"></button>
+    </nav>
+
+    <!-- ═══ CART SLIDE-OUT PANEL ═══ -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3>🛒 Your Cart</h3>
+            <button class="cart-close" id="cart-close" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <span class="cart-empty-icon">🍽️</span>
+                <p>Your cart is empty</p>
+                <small>Add some delicious items from our menu!</small>
+            </div>
+        </div>
+        <div class="cart-footer" id="cart-footer" style="display:none;">
+            <div class="cart-total-row">
+                <span>Subtotal</span>
+                <span class="cart-total-price" id="cart-total-price">₹0</span>
+            </div>
+            <button class="btn-checkout" id="btn-checkout">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- ═══ CHECKOUT MODAL ═══ -->
+    <div class="checkout-overlay" id="checkout-overlay"></div>
+    <div class="checkout-modal" id="checkout-modal">
+        <div class="checkout-header">
+            <h3>📝 Checkout</h3>
+            <button class="checkout-close" id="checkout-close" aria-label="Close checkout">&times;</button>
+        </div>
+        <form class="checkout-form" id="checkout-form">
+            <div class="form-group">
+                <label for="checkout-name">Your Name</label>
+                <input type="text" id="checkout-name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="checkout-phone">Phone Number</label>
+                <input type="tel" id="checkout-phone" placeholder="Enter phone number" required pattern="[0-9]{10}">
+            </div>
+            <div class="checkout-summary" id="checkout-summary"></div>
+            <div class="checkout-total">
+                <span>Total</span>
+                <span class="checkout-total-price" id="checkout-total-price">₹0</span>
+            </div>
+            <button type="submit" class="btn-place-order" id="btn-place-order">
+                <span class="btn-order-text">Place Order</span>
+                <span class="btn-order-spinner" style="display:none;">⏳ Placing...</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- ═══ TOAST NOTIFICATION ═══ -->
+    <div class="toast-notification" id="toast-notification">
+        <span class="toast-icon">✅</span>
+        <span class="toast-message" id="toast-message">Order placed successfully!</span>
+    </div>
+
+    <!-- ═══ ORDER CONFIRMATION MODAL ═══ -->
+    <div class="confirmation-overlay" id="confirmation-overlay"></div>
+    <div class="confirmation-modal" id="confirmation-modal">
+        <div class="confirmation-success">
+            <div class="confirmation-checkmark">✓</div>
+            <h3>Order Placed Successfully!</h3>
+            <p>Your delicious food is being prepared with love.</p>
+            <div class="confirmation-order-id" id="confirmation-order-id" style="display:none;">Order #--</div>
+        </div>
+        <div class="confirmation-items" id="confirmation-items"></div>
+        <div class="confirmation-total">
+            <span>Total</span>
+            <span class="confirmation-total-price" id="confirmation-total-price">₹0</span>
+        </div>
+        <div class="confirmation-actions">
+            <button class="btn-track-order" id="btn-track-from-confirm" onclick="trackOrderFromConfirmation()">📍 Track
+                Order</button>
+            <button class="btn-continue-browsing" id="btn-continue-browsing" onclick="closeConfirmation()">Continue
+                Browsing</button>
+        </div>
+    </div>
+
+    <!-- ═══ ORDER TRACKING MODAL ═══ -->
+    <div class="tracking-overlay" id="tracking-overlay"></div>
+    <div class="tracking-modal" id="tracking-modal">
+        <div class="tracking-header">
+            <h3>📍 Order Tracking</h3>
+            <button class="tracking-close" id="tracking-close" aria-label="Close tracking">&times;</button>
+        </div>
+        <div class="tracking-body">
+            <div class="tracking-order-info">
+                <div class="order-number" id="tracking-order-number">Order #--</div>
+                <div class="order-customer-info" id="tracking-customer-info"></div>
+            </div>
+            <div class="tracking-steps">
+                <div class="tracking-steps-progress" id="tracking-progress-bar" style="width: 0%;"></div>
+                <div class="tracking-step" data-step="Pending">
+                    <div class="tracking-step-icon">📝</div>
+                    <span class="tracking-step-label">Placed</span>
+                </div>
+                <div class="tracking-step" data-step="Preparing">
+                    <div class="tracking-step-icon">🔥</div>
+                    <span class="tracking-step-label">Preparing</span>
+                </div>
+                <div class="tracking-step" data-step="Ready">
+                    <div class="tracking-step-icon">✅</div>
+                    <span class="tracking-step-label">Ready</span>
+                </div>
+                <div class="tracking-step" data-step="Out for Delivery">
+                    <div class="tracking-step-icon">🚚</div>
+                    <span class="tracking-step-label">Delivered</span>
+                </div>
+            </div>
+            <div class="tracking-items" id="tracking-items"></div>
+            <div class="tracking-total">
+                <span>Total Paid</span>
+                <span class="tracking-total-price" id="tracking-total-price">₹0</span>
+            </div>
+            <div class="tracking-refresh-hint">Auto-refreshing every 5 seconds</div>
+        </div>
+    </div>
+
+    <!-- ═══ FLOATING TRACK ORDER BUTTON ═══ -->
+    <button class="track-order-fab" id="track-order-fab" onclick="openTrackingFromFab()">
+        📍 Track Order
+    </button>
+
+    <!-- ═══ AUTH MODAL (Login / Sign Up) ═══ -->
+    <div class="auth-overlay" id="auth-overlay"></div>
+    <div class="auth-modal" id="auth-modal">
+        <button class="auth-close" id="auth-close" aria-label="Close">&times;</button>
+        <div class="auth-header">
+            <div class="auth-logo">
+                <span class="logo-spice">Spice</span><span class="logo-amp">&</span><span
+                    class="logo-sizzle">Sizzle</span>
+            </div>
+            <p class="auth-subtitle">Sign in to place orders & track them</p>
+        </div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="auth-tab-login" data-tab="login">Login</button>
+            <button class="auth-tab" id="auth-tab-register" data-tab="register">Create Account</button>
+        </div>
+        <!-- LOGIN FORM -->
+        <form class="auth-form" id="auth-login-form">
+            <div class="auth-form-group">
+                <label for="login-username">Username or Email</label>
+                <input type="text" id="login-username" placeholder="Enter your username or email" required
+                    autocomplete="username">
+                <div class="auth-field-error" id="login-username-error"></div>
+            </div>
+            <div class="auth-form-group">
+                <label for="login-password">Password</label>
+                <div class="auth-input-wrapper">
+                    <input type="password" id="login-password" placeholder="Enter your password" required
+                        autocomplete="current-password">
+                    <button type="button" class="auth-password-toggle" data-target="login-password" aria-label="Toggle password visibility">
+                        <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="auth-field-error" id="login-password-error"></div>
+            </div>
+            <div class="auth-error" id="login-error"></div>
+            <button type="submit" class="auth-submit-btn" id="login-submit-btn">
+                <span class="auth-btn-text">Sign In</span>
+                <span class="auth-btn-spinner" style="display:none;">⏳ Authenticating...</span>
+            </button>
+        </form>
+        <!-- REGISTER FORM -->
+        <form class="auth-form" id="auth-register-form" style="display:none;">
+            <div class="auth-form-group">
+                <label for="register-username">Username</label>
+                <input type="text" id="register-username" placeholder="Choose a username" required
+                    autocomplete="username">
+                <div class="auth-field-error" id="register-username-error"></div>
+            </div>
+            <div class="auth-form-group">
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" placeholder="your@email.com" autocomplete="email">
+                <div class="auth-field-error" id="register-email-error"></div>
+            </div>
+            <div class="auth-form-group">
+                <label for="register-password">Password</label>
+                <div class="auth-input-wrapper">
+                    <input type="password" id="register-password" placeholder="Min 8 characters" required
+                        autocomplete="new-password">
+                    <button type="button" class="auth-password-toggle" data-target="register-password" aria-label="Toggle password visibility">
+                        <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="auth-field-error" id="register-password-error"></div>
+            </div>
+            <div class="auth-form-group">
+                <label for="register-confirm-password">Confirm Password</label>
+                <div class="auth-input-wrapper">
+                    <input type="password" id="register-confirm-password" placeholder="Re-enter your password" required
+                        autocomplete="new-password">
+                    <button type="button" class="auth-password-toggle" data-target="register-confirm-password" aria-label="Toggle password visibility">
+                        <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="auth-field-error" id="register-confirm-password-error"></div>
+            </div>
+            <!-- Non-field error banner (e.g. duplicate email, general errors) -->
+            <div class="auth-error-banner" id="register-error-banner" style="display:none;"></div>
+            <div class="auth-error" id="register-error"></div>
+            <button type="submit" class="auth-submit-btn" id="register-submit-btn">
+                <span class="auth-btn-text">Create Account</span>
+                <span class="auth-btn-spinner" style="display:none;">⏳ Creating Account...</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- ═══ MY ORDERS MODAL ═══ -->
+    <div class="myorders-overlay" id="myorders-overlay"></div>
+    <div class="myorders-modal" id="myorders-modal">
+        <div class="myorders-header">
+            <h3>📋 My Orders</h3>
+            <button class="myorders-close" id="myorders-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="myorders-body" id="myorders-body">
+            <div class="myorders-loading">Loading your orders...</div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
