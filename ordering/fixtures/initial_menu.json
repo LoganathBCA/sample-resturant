@@ -1,0 +1,197 @@
+[
+  {
+    "model": "ordering.menuitem",
+    "pk": 1,
+    "fields": {
+      "name": "Samosa (2 pcs)",
+      "description": "Crispy pastry filled with spiced potatoes and peas.",
+      "price": "40.00",
+      "image": "menu/samosa.png",
+      "category": "starters",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 2,
+    "fields": {
+      "name": "Gobi 65",
+      "description": "Spicy, deep-fried cauliflower florets.",
+      "price": "90.00",
+      "image": "menu/gobi65.png",
+      "category": "starters",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 3,
+    "fields": {
+      "name": "Chicken 65",
+      "description": "Classic, fiery deep-fried chicken bites.",
+      "price": "140.00",
+      "image": "menu/chicken65.png",
+      "category": "starters",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 4,
+    "fields": {
+      "name": "Paneer Tikka",
+      "description": "Marinated cottage cheese cooked in a tandoor.",
+      "price": "150.00",
+      "image": "menu/paneertikka.png",
+      "category": "starters",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 5,
+    "fields": {
+      "name": "Authentic Dindigul Biryani",
+      "description": "Our specialty, made with Seeraga Samba rice and traditional spices.",
+      "price": "250.00",
+      "image": "menu/biryani.png",
+      "category": "maincourse",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 6,
+    "fields": {
+      "name": "South Indian Meals (Veg)",
+      "description": "Rice, sambar, rasam, kootu, poriyal, appalam, and pickle.",
+      "price": "120.00",
+      "image": "menu/southmeals.png",
+      "category": "maincourse",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 7,
+    "fields": {
+      "name": "Butter Chicken",
+      "description": "Tender chicken in a rich, creamy tomato gravy.",
+      "price": "200.00",
+      "image": "menu/butterchicken.png",
+      "category": "maincourse",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 8,
+    "fields": {
+      "name": "Paneer Butter Masala",
+      "description": "Soft paneer cubes in a mild, buttery curry.",
+      "price": "180.00",
+      "image": "menu/paneermasala.png",
+      "category": "maincourse",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 9,
+    "fields": {
+      "name": "Tandoori Roti",
+      "description": "Freshly baked in our traditional clay tandoor.",
+      "price": "30.00",
+      "image": "menu/tandooriroti.png",
+      "category": "breads",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 10,
+    "fields": {
+      "name": "Butter Naan",
+      "description": "Soft, fluffy naan brushed with melted butter.",
+      "price": "45.00",
+      "image": "menu/butternaan.png",
+      "category": "breads",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 11,
+    "fields": {
+      "name": "Garlic Naan",
+      "description": "Aromatic garlic-infused naan, a crowd favourite.",
+      "price": "55.00",
+      "image": "menu/garlicnaan.png",
+      "category": "breads",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 12,
+    "fields": {
+      "name": "Gulab Jamun",
+      "description": "Soft, syrup-soaked dumplings of pure bliss.",
+      "price": "50.00",
+      "image": "menu/gulabjamun.png",
+      "category": "desserts",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 13,
+    "fields": {
+      "name": "Jigarthanda",
+      "description": "The classic Madurai cooling drink.",
+      "price": "80.00",
+      "image": "menu/jigarthanda.png",
+      "category": "desserts",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 14,
+    "fields": {
+      "name": "Filter Coffee",
+      "description": "Strong, traditional South Indian coffee.",
+      "price": "30.00",
+      "image": "menu/filtercoffee.png",
+      "category": "desserts",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "ordering.menuitem",
+    "pk": 15,
+    "fields": {
+      "name": "Sweet / Salt Lassi",
+      "description": "Creamy yogurt drink — sweet or salted.",
+      "price": "60.00",
+      "image": "menu/lassi.png",
+      "category": "desserts",
+      "is_available": true,
+      "created_at": "2026-04-22T10:00:00Z"
+    }
+  }
+]
